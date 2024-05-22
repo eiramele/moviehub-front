@@ -1,6 +1,8 @@
+import { NavBar } from "@/components";
+import Link from "next/link";
 import { redirect } from "next/navigation";
 
-export default function Home(){
-  redirect('/home');
-    
+export default function App() {
+  redirect('/movies');
+
 }
