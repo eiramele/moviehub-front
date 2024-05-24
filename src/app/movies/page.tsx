@@ -86,7 +86,7 @@ interface Props {
 function MovieDetail({ movie }: Props) {
   const { id, film_name, image, release_year } = movie;
   return (
-    <div className="shadow shadow-cadet-blue-900/90 w-32 h-40">
+    <div className=" w-32 h-40">
       <Image
         width={20}
         height={24}
@@ -94,6 +94,7 @@ function MovieDetail({ movie }: Props) {
         src={image}
         layout="responsive"
         priority={false} //para cargarse bajo demanda
+        className="shadow-lg shadow-cadet-blue-800/80"
       />
       <Link href={`movies/${id}`}>{film_name}</Link>
     </div>

@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { Movie } from "../page";
+import DeleteMovie from "@/components/DeleteMovie";
 
 interface Props {
   params: { id: string };
@@ -26,12 +27,12 @@ const getMovie = async (id: string): Promise<Movie | Error> => {
 export default async function MoviePage({ params }: Props) {
   const movie: Movie | Error = await getMovie(params.id);
 
-  const { film_name, image, release_year } = movie as Movie;
-
   if (movie instanceof Error) {
     console.error(movie.message);
-    return <div>Error loading movies.</div>;
+    return <div>Error loading movie.</div>;
   }
+
+  const { film_name, image, release_year } = movie as Movie;
 
   return (
     <div className="shadow-lg shadow-cadet-blue-800/80 w-40 h-60">
@@ -47,6 +48,8 @@ export default async function MoviePage({ params }: Props) {
       </div>
       {film_name}
       <span>{` (${release_year})`}</span>
+      
+      <div><DeleteMovie id={params.id} /></div>
     </div>
   );
 }

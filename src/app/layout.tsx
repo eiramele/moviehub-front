@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import Image from "next/image";
 import { UserProvider } from "@auth0/nextjs-auth0/client";
+import Link from "next/link";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -21,12 +22,14 @@ export default function RootLayout({
       <UserProvider>
         <body className="m-0 min-w-[320px] min-h-screen ">
           <header>
-            <Image
-              src="/assets/movie-hub-logo.png"
-              alt="Movie-hub logo"
-              width={100}
-              height={100}
-            />
+            <Link href={"/movies"}>
+              <Image
+                src="/assets/movie-hub-logo.png"
+                alt="Movie-hub logo"
+                width={100}
+                height={100}
+              />
+            </Link>
           </header>
           {children}
         </body>
