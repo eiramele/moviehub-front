@@ -1,6 +1,12 @@
-'use client';
+"use client";
 
-import { useUser } from '@auth0/nextjs-auth0/client';
+import { useUser } from "@auth0/nextjs-auth0/client";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Movie Hub - Profile",
+  description: "Find and store your favourite movies",
+};
 
 export default function ProfileClient() {
   const { user, error, isLoading } = useUser();
@@ -11,9 +17,8 @@ export default function ProfileClient() {
   return (
     user && (
       <div>
-        
-        <h2>{user.name}</h2>
-        <p>{user.email}</p>
+        <h2>Welcome to Movie Hub</h2>
+        <p>This is your user email: {user.email}</p>
       </div>
     )
   );

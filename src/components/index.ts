@@ -1,5 +1,9 @@
-export { SearchBar } from "./SearchBar";
-export {NavBar} from "./NavBar"
-export {LoginButton} from "./LoginButton"
-export {LogoutButton} from "./LogoutButton"
-export {SignUpButton} from "./SignupButton"
+export { NavBar } from "./NavBar";
+export { LoginButton } from "./LoginButton";
+export { LogoutButton } from "./LogoutButton";
+export { SignUpButton } from "./SignupButton";
+export { DeleteMovie } from "./DeleteMovie";
+export { AddMovie } from "./AddMovie";
+export { MovieDetail } from "./MovieDetail";
+export { UpdateMovieButton } from "./UpdateMovieButton";
+export { UpdateMovieForm } from "./UpdateMovieForm";

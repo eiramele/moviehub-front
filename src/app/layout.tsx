@@ -5,7 +5,19 @@ import Image from "next/image";
 import { UserProvider } from "@auth0/nextjs-auth0/client";
 import Link from "next/link";
 
-const inter = Inter({ subsets: ["latin"] });
+import { Roboto, Days_One } from 'next/font/google'
+ 
+const roboto = Roboto({
+  weight: '400',
+  subsets: ['latin'],
+  display: 'swap',
+})
+
+const days = Days_One({
+  weight: '400',
+  subsets: ['latin'],
+  display: 'swap',
+})
 
 export const metadata: Metadata = {
   title: "Movie Hub",
@@ -18,7 +30,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" className={days.className}>
       <UserProvider>
         <body className="m-0 min-w-[320px] min-h-screen ">
           <header>

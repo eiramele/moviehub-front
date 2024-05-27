@@ -1,44 +1,22 @@
-// components/FilmForm.tsx
 "use client";
 
 import React from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { FormSchema, formSchema } from "@/validations/formSchema";
+import { AddMovieSchema, addMovieSchema } from "@/validations/addMovieSchema";
+import { createMovie } from "@/services/createMovieService";
 
-const FilmForm: React.FC = () => {
+export const AddMovie: React.FC = () => {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<FormSchema>({
-    resolver: zodResolver(formSchema),
+  } = useForm<AddMovieSchema>({
+    resolver: zodResolver(addMovieSchema),
   });
 
-  const onSubmit = async (data: FormSchema) => {
-    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL ?? "";
-    if (!baseUrl) {
-      throw new Error("BASE_URL is not defined");
-    }
-    try {
-      const response = await fetch(`${baseUrl}/5`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      });
-
-      if (!response.ok) {
-        throw new Error("Error 1");
-      }
-      const result = await response.json();
-      console.log("Success:", result);
-      alert("Film data submitted successfully");
-    } catch (error) {
-      console.error("Error:", error);
-      alert(`Error 2: ${error}`);
-    }
+  const onSubmit = async (data: AddMovieSchema) => {
+    createMovie(data);
   };
 
   return (
@@ -58,18 +36,19 @@ const FilmForm: React.FC = () => {
         {errors.image && <p>{errors.image.message}</p>}
       </div>
 
-      {/* <div>
+      <div>
         <label>Genre:</label>
-        <select {...register('genre')}>
+        <select {...register("genre")}>
           <option value="">Select a genre</option>
-          <option value="Action">Action</option>
           <option value="Comedy">Comedy</option>
+          <option value="Action">Action</option>
+          <option value="Animation">Animation</option>
+          <option value="Musical">Musical</option>
           <option value="Drama">Drama</option>
-          <option value="Horror">Horror</option>
-          <option value="Sci-Fi">Sci-Fi</option>
+          <option value="Fantasy">Fantasy</option>
         </select>
         {errors.genre && <p>{errors.genre.message}</p>}
-      </div> */}
+      </div>
 
       <div>
         <label>Release Year:</label>
@@ -82,12 +61,10 @@ const FilmForm: React.FC = () => {
 
       <button
         type="submit"
-        className=" border border-cadet-blue-900 rounded-md"
+        className=" border border-cadet-blue-900 rounded-md hover:bg-cadet-blue-900"
       >
         Submit
       </button>
     </form>
   );
 };
-
-export default FilmForm;

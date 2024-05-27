@@ -1,41 +1,45 @@
 import Image from "next/image";
-import { Movie } from "../page";
-import DeleteMovie from "@/components/DeleteMovie";
+
+import Movie from "@/interfaces/Movie";
+import { DeleteMovie } from "@/components";
+import getOneMovie from "@/services/getOneMovieService";
+import { UpdateMovieButton } from "@/components/UpdateMovieButton";
 
 interface Props {
   params: { id: string };
 }
 
-const getMovie = async (id: string): Promise<Movie | Error> => {
-  try {
-    const baseUrl = process.env.BASE_URL ?? "";
-    if (!baseUrl) {
-      throw new Error("BASE_URL is not defined");
-    }
-    const response = await fetch(`${baseUrl}/${id}`);
-    if (!response.ok) {
-      throw new Error("Network response was not ok");
-    }
-    const data = await response.json();
-    return data.data as Movie;
-  } catch (error) {
-    console.error("Error fetching data: ", error);
-    return new Error("Error fetching movie");
+export async function generateMetadata({ params }: Props) {
+  const movie: Movie | Error = await getOneMovie(params.id);
+
+  if (movie instanceof Error) {
+    return {
+      title: "Error loading movie",
+      description: "There was an error loading the movie details.",
+    };
   }
-};
+
+  const { film_name, image, release_year, genre } = movie as Movie;
+
+  return {
+    title: `Movie Hub - ${film_name}`,
+    description: `Details and information about ${film_name}.`,
+
+  };
+}
 
 export default async function MoviePage({ params }: Props) {
-  const movie: Movie | Error = await getMovie(params.id);
+  const movie: Movie | Error = await getOneMovie(params.id);
 
   if (movie instanceof Error) {
     console.error(movie.message);
     return <div>Error loading movie.</div>;
   }
 
-  const { film_name, image, release_year } = movie as Movie;
+  const { film_name, image, release_year, genre } = movie as Movie;
 
   return (
-    <div className="shadow-lg shadow-cadet-blue-800/80 w-40 h-60">
+    <div className="shadow-lg shadow-cadet-blue-800/80 w-40 h-56">
       <div className="mb-2">
         <Image
           width={32}
@@ -46,10 +50,20 @@ export default async function MoviePage({ params }: Props) {
           priority={false}
         />
       </div>
-      {film_name}
-      <span>{` (${release_year})`}</span>
-      
-      <div><DeleteMovie id={params.id} /></div>
+
+      <div className="text-center">
+        <p>{film_name}</p>
+        <p>
+          {` ${release_year} | ${
+            genre.charAt(0).toUpperCase() + genre.slice(1).toLowerCase()
+          }`}
+        </p>
+      </div>
+
+      <div className="flex gap-3 justify-center mt-4">
+        <UpdateMovieButton id={params.id} />
+        <DeleteMovie id={params.id} />
+      </div>
     </div>
   );
 }

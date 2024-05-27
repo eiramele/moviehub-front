@@ -17,7 +17,7 @@ export const NavBar = () => {
       )}
       {user && (
         <>
-        <Link href={'/form'}>Add movie</Link>
+        <Link href={'/add-movie'}>Add movie</Link>
           <LogoutButton />
         </>
       )}

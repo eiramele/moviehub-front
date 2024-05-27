@@ -1,9 +1,9 @@
 import { z } from "zod";
 
-export const formSchema = z.object({
+export const addMovieSchema = z.object({
   film_name: z.string().min(1, { message: "Film name is required" }),
   image: z.string().url({ message: "Image must be a valid URL" }),
-  //   genre: z.enum(['Action', 'Comedy', 'Drama', 'Horror', 'Sci-Fi'], { message: 'Select a valid genre' }),
+  genre: z.string().min(1, "Genre is required"),
   release_year: z.preprocess(
     (val) => Number(val),
     z
@@ -16,4 +16,4 @@ export const formSchema = z.object({
   ),
 });
 
-export type FormSchema = z.infer<typeof formSchema>;
+export type AddMovieSchema = z.infer<typeof addMovieSchema>;
